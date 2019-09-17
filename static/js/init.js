@@ -11,6 +11,11 @@ export let init = {
             container.classList.add('container');
             body.appendChild(container);
 
+            let hitButton = document.createElement('button');
+            hitButton.classList.add('hit-btn');
+            hitButton.textContent = 'Hit';
+            container.appendChild(hitButton);
+
             let dealerCards = document.createElement('div');
             dealerCards.classList.add('dealer-cards');
             container.appendChild(dealerCards);
@@ -19,10 +24,7 @@ export let init = {
             cards.classList.add('cards');
             container.appendChild(cards);
 
-            let hitButton = document.createElement('button');
-            hitButton.classList.add('hit-btn');
-            hitButton.textContent = 'Hit';
-            container.appendChild(hitButton);
+
 
 
 
@@ -30,12 +32,16 @@ export let init = {
             let isOver = false;
             let newDeck = [];
             const fullDeck = deal.createDeck(1);
+            const hands = {dealer: [], player: []};
+
             const btnHit = document.querySelector('.hit-btn');
             btnHit.addEventListener('click', function () {
-                userHand.push(deal.dealCards(1, newDeck, fullDeck)[0]);
-                console.log(userHand);
+                let hit = (deal.dealCards(1, newDeck, fullDeck)[0]);
+                hands.player.push(hit[0]);
+                console.log(hands.player);
+                init.addTestCard(hit, cards)
             });
-            let hands = {dealer: [], player: []};
+
             init.initTest(newDeck, fullDeck, hands);
 
         });
@@ -44,7 +50,7 @@ export let init = {
     addTestCard: function (card, cardContainer) {
         let newCard = document.createElement('img');
         newCard.classList.add(`test-card${cardContainer.childElementCount + 1}`);
-        newCard.setAttribute('src', `../static/images/${card}.png`);
+        newCard.setAttribute('src', `../static/images/${card.slice(0, 2)}.png`);
         cardContainer.appendChild(newCard);
         newCard.dataset.value = `${card.slice(0, 1)}`;
 
@@ -57,7 +63,7 @@ export let init = {
         hands.player = deal.dealCards(2, newDeck, fullDeck);
         hands.dealer = deal.dealCards(2, newDeck, fullDeck);
         for (let card of hands.player) {
-            init.addTestCard(`${card.slice(0, 2)}`, cardContainer);
+            init.addTestCard(`${card}`, cardContainer);
             console.log(`${card.slice(0, 1)}`)
         }
 

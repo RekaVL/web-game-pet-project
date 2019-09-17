@@ -52,8 +52,8 @@ body {
 }
 
 .test-card3 {
-    width: 200px;
-    height: 300px;
+    width: 100px;
+    height: 200px;
     grid-row: 1;
     grid-column: 1;
     position: relative;
