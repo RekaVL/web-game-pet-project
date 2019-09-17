@@ -11,6 +11,12 @@ body {
     justify-content: center;
     }
 
+.hit-btn {
+    align-self: flex-end;
+    justify-self: flex-end;
+    margin-bottom: 15px;
+}
+
 .cards {
     border: 3px solid white;
     border-radius: 5px;

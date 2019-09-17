@@ -1,3 +1,5 @@
+import {deal} from "./dealLogic.js";
+
 export let init = {
     init: function () {
         let startButton = document.querySelector('#start-btn');
@@ -13,7 +15,27 @@ export let init = {
             cards.classList.add('cards');
             container.appendChild(cards);
 
+            let hitButton = document.createElement('button');
+            hitButton.classList.add('hit-btn');
+            hitButton.textContent = 'Hit';
+            container.appendChild(hitButton);
+
             init.initTest();
+
+
+            let isOver = false;
+            let newDeck = [];
+            const fullDeck = deal.createDeck(1);
+
+            let userHand = deal.dealCards(2, newDeck, fullDeck);
+
+            console.log(userHand);
+
+            const btnHit = document.querySelector('.hit-btn');
+            btnHit.addEventListener('click', function () {
+                userHand.push(deal.dealCards(1, newDeck, fullDeck)[0]);
+                console.log(userHand);
+            });
         });
     },
 
@@ -24,7 +46,7 @@ export let init = {
         cardContainer.appendChild(newCard)
     },
 
-    initTest: function() {
+    initTest: function () {
         let cardContainer = document.querySelector('.cards');
         console.log(cardContainer);
         document.addEventListener('keydown', (e) => {
