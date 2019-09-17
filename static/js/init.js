@@ -25,10 +25,6 @@ export let init = {
             container.appendChild(cards);
 
 
-
-
-
-
             let isOver = false;
             let newDeck = [];
             const fullDeck = deal.createDeck(1);
@@ -39,23 +35,27 @@ export let init = {
                 let hit = (deal.dealCards(1, newDeck, fullDeck)[0]);
                 hands.player.push(hit[0]);
                 console.log(hands.player);
+                console.log(hit)
                 init.addTestCard(hit, cards)
+                init.showCardSum(init.cardCounter())
             });
 
             init.initTest(newDeck, fullDeck, hands);
-
+            init.showCardSum(init.cardCounter());
         });
     },
 
     addTestCard: function (card, cardContainer) {
         let newCard = document.createElement('img');
+        newCard.classList.add("playerCard")
         newCard.classList.add(`test-card${cardContainer.childElementCount + 1}`);
+        console.log("card number in line: "+`${cardContainer.childElementCount + 1}`);
         newCard.setAttribute('src', `../static/images/${card.slice(0, 2)}.png`);
-        cardContainer.appendChild(newCard);
         newCard.dataset.value = `${card.slice(0, 1)}`;
+        cardContainer.appendChild(newCard);
+
 
     },
-
 
 
     initTest: function (newDeck, fullDeck, hands) {
@@ -67,5 +67,43 @@ export let init = {
             console.log(`${card.slice(0, 1)}`)
         }
 
+    },
+
+    cardCounter: function () {
+        let cardSum = 0;
+        let cards = document.querySelectorAll('.playerCard');
+        for (let card of cards) {
+            let value = card.dataset.value
+            if (value === 0) {
+                value = 10
+            } else if (value === "K") {
+                value = 10
+            } else if (value === "Q") {
+                value = 10
+            } else if (value === "J") {
+                value = 10
+            } else if (value === "A") {
+                value = 11
+            }
+            cardSum = cardSum + parseInt(value)
+        }
+        console.log(cardSum)
+        return cardSum
+    },
+
+    showCardSum: function (value) {
+        try {
+            let counterDiv = document.querySelector('#cardCount')
+            counterDiv.innerText = value;
+        } catch (e) {
+            let container = document.querySelector(".container");
+            let counterDiv = document.createElement("div")
+            counterDiv.setAttribute("id","cardCount")
+            counterDiv.innerText = value
+            container.appendChild(counterDiv)
+        }
+
     }
+
+
 };
