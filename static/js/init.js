@@ -17,9 +17,9 @@ export let init = {
         });
     },
 
-    addTestCard: function (card, cardContainer, placement) {
+    addTestCard: function (card, cardContainer) {
         let newCard = document.createElement('img');
-        newCard.classList.add(`test-card${placement}`);
+        newCard.classList.add(`test-card${cardContainer.childElementCount + 1}`);
         newCard.setAttribute('src', `../static/images/${card}.png`);
         cardContainer.appendChild(newCard)
     },
@@ -29,9 +29,9 @@ export let init = {
         console.log(cardContainer);
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                init.addTestCard('AS', cardContainer, 1);
-                init.addTestCard('10S', cardContainer, 2);
-                init.addTestCard('QH', cardContainer, 3);
+                init.addTestCard('AS', cardContainer);
+                init.addTestCard('10S', cardContainer);
+                init.addTestCard('QH', cardContainer);
             }
         });
     }
