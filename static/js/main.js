@@ -14,9 +14,7 @@ function createDeck(amountOfDeck) {
     return fullDeck;
 }
 
-function dealCards(amount) {
-    let newDeck = [];
-    const fullDeck = createDeck(1);
+function dealCards(amount, newDeck, fullDeck) {
     for (let j = 0; j < amount; j++) {
         let pick = parseInt(Math.random() * (fullDeck.length -1));
         while (pick in newDeck) {
@@ -41,31 +39,35 @@ function getValue(card) {
     }
 }
 
-function handCardsValues(amount) {
-    let handValues = [];
-    const deck = dealCards(amount);
-    for (let card of deck) {
-        let cardValue = getValue(card);
-        handValues.push(cardValue)
-    }
+function check(isOverm, newDeck, fullDeck) {
 
-    return handValues;
-}
+        let newCard = dealCards(1);
 
-function check(isOver) {
-
-    handCardsValues(1)
-    console.log(handCardsValues(1))
-
+    console.log(newCard)
 }
 
 
 function main() {
     const amount = 2;
     let isOver = false;
-    const btnHit = document.getElementById('hit');
 
-    btnHit.addEventListener('click', check(isOver));
+    let newDeck = [];
+    const fullDeck = createDeck(1);
+
+    let handValues = [];
+    const startUserHand = dealCards(amount, newDeck, fullDeck);
+    newDeck = startUserHand;
+    for (let card of startUserHand) {
+        let cardValue = getValue(card);
+        handValues.push(cardValue)
+    }
+
+    const btnHit = document.getElementById('hit');
+    btnHit.addEventListener('click', function () {
+        check(isOver, newDeck, fullDeck)
+    });
+
+
 
 }
 
