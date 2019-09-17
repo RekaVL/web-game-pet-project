@@ -20,23 +20,23 @@ body {
 .cards {
     border: 3px solid white;
     border-radius: 5px;
-    width: 200px;
-    height: 300px;
+    width: 100px;
+    height: 200px;
     align-self: flex-end;
     margin-bottom: 15px;
     display: grid;
 }
 
 .test-card1 {
-    width: 200px;
-    height: 300px;
+    width: 100px;
+    height: 200px;
     grid-row: 1;
     grid-column: 1;
 }
 
 .test-card2 {
-    width: 200px;
-    height: 300px;
+    width: 100px;
+    height: 200px;
     grid-row: 1;
     grid-column: 1;
     position: relative;
