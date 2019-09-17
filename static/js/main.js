@@ -41,7 +41,7 @@ function getValue(card) {
     }
 }
 
-function hand(amount) {
+function handCardsValues(amount) {
     let handValues = [];
     const deck = dealCards(amount);
     for (let card of deck) {
@@ -52,10 +52,20 @@ function hand(amount) {
     return handValues;
 }
 
+function check(isOver) {
+
+    handCardsValues(1)
+    console.log(handCardsValues(1))
+
+}
+
 
 function main() {
     const amount = 2;
-    console.log(hand(amount))
+    let isOver = false;
+    const btnHit = document.getElementById('hit');
+
+    btnHit.addEventListener('click', check(isOver));
 
 }
 
