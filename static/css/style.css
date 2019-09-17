@@ -17,6 +17,14 @@ body {
     margin-bottom: 15px;
 }
 
+.dealer-cards {
+    border: 3px solid white;
+    border-radius: 5px;
+    width: 100px;
+    height: 200px;
+    display: grid;
+}
+
 .cards {
     border: 3px solid white;
     border-radius: 5px;

@@ -11,6 +11,10 @@ export let init = {
             container.classList.add('container');
             body.appendChild(container);
 
+            let dealerCards = document.createElement('div');
+            dealerCards.classList.add('dealer-cards');
+            container.appendChild(dealerCards);
+
             let cards = document.createElement('div');
             cards.classList.add('cards');
             container.appendChild(cards);
@@ -31,7 +35,9 @@ export let init = {
                 userHand.push(deal.dealCards(1, newDeck, fullDeck)[0]);
                 console.log(userHand);
             });
-            init.initTest(newDeck, fullDeck);
+            let hands = {dealer: [], player: []};
+            init.initTest(newDeck, fullDeck, hands);
+
         });
     },
 
@@ -44,9 +50,13 @@ export let init = {
 
     },
 
-    initTest: function (newDeck, fullDeck) {
+
+
+    initTest: function (newDeck, fullDeck, hands) {
         let cardContainer = document.querySelector('.cards');
-        for (let card of deal.dealCards(2, newDeck, fullDeck)) {
+        hands.player = deal.dealCards(2, newDeck, fullDeck);
+        hands.dealer = deal.dealCards(2, newDeck, fullDeck);
+        for (let card of hands.player) {
             init.addTestCard(`${card.slice(0, 2)}`, cardContainer);
             console.log(`${card.slice(0, 1)}`)
         }
