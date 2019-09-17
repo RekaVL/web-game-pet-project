@@ -31,6 +31,7 @@ export let init = {
 
             console.log(userHand);
 
+
             const btnHit = document.querySelector('.hit-btn');
             btnHit.addEventListener('click', function () {
                 userHand.push(deal.dealCards(1, newDeck, fullDeck)[0]);
