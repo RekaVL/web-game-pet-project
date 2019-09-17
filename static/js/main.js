@@ -1,3 +1,5 @@
+import {init} from "./init.js";
+
 function createDeck(amountOfDeck) {
     const colors = 'dchs';
     const values = '234567890jqka';
@@ -37,6 +39,7 @@ function check(isOver, newDeck, fullDeck) {
 
 
 function main() {
+    init.init();
     let isOver = false;
 
     let newDeck = [];
