@@ -51,7 +51,11 @@ export let init = {
         newCard.classList.add(`test-card${cardContainer.childElementCount + 1}`);
         console.log("card number in line: "+`${cardContainer.childElementCount + 1}`);
         newCard.setAttribute('src', `../static/images/${card.slice(0, 2)}.png`);
-        newCard.dataset.value = `${card.slice(0, 1)}`;
+        if (`${cardContainer.childElementCount + 1}`>3 && `${card.slice(0, 1)}`==="A" && init.cardCounter()>10){
+            newCard.dataset.value = 1;
+        } else{
+            newCard.dataset.value = `${card.slice(0, 1)}`;
+        }
         cardContainer.appendChild(newCard);
 
 
@@ -74,7 +78,7 @@ export let init = {
         let cards = document.querySelectorAll('.playerCard');
         for (let card of cards) {
             let value = card.dataset.value
-            if (value === 0) {
+            if (value === "0") {
                 value = 10
             } else if (value === "K") {
                 value = 10
