@@ -81,7 +81,8 @@ export let init = {
 
         newCard.classList.add(`dealer-card${dealerCardContainer.childElementCount + 1}`);
         console.log("card number in line: "+`${dealerCardContainer.childElementCount + 1}`);
-        newCard.setAttribute('src', `../static/images/${card.slice(0, 2)}.png`);
+        //newCard.setAttribute('src', `../static/images/${card.slice(0, 2)}.png`);
+        newCard.setAttribute('src', `../static/images/rider-back.png`);
 
 
         if (`${dealerCardContainer.childElementCount + 1}`>3 && `${card.slice(0, 1)}`==="A" && init.cardCounter()>10){
