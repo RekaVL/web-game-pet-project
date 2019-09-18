@@ -4,6 +4,9 @@ export let init = {
     init: function () {
         let startButton = document.querySelector('#start-btn');
         startButton.addEventListener('click', function () {
+            let deckStyle = document.querySelector('input[name="deck"]:checked').value;
+            localStorage.setItem("decktype", `${deckStyle}`);
+
             init.initGameField();
         });
     },
@@ -72,6 +75,14 @@ export let init = {
     },
 
     addCard: function (card, cardContainer, playerClass) {
+        const deckType = localStorage.getItem("decktype");
+        let loadFile;
+        if (deckType === 'art') {
+            loadFile = ['art', 'jpg']
+        } else {
+            loadFile = ['classic', 'png']
+        }
+
         let newCard = document.createElement('img');
         newCard.classList.add(`${playerClass}-card`);
         if (cardContainer.childElementCount + 1 > 1) {
@@ -79,12 +90,18 @@ export let init = {
             let leftPosition = 40 * cardContainer.childElementCount;
             newCard.style.left = `${leftPosition}px`
         }
-        newCard.setAttribute('src', `../static/images/${card.slice(0, 2)}.png`);
-        newCard.dataset.value = `${card.slice(0, 1)}`;
+        newCard.setAttribute('src', `../static/images/${loadFile[0]}/${card.slice(0, 2)}.${loadFile[1]}`);        newCard.dataset.value = `${card.slice(0, 1)}`;
         cardContainer.appendChild(newCard);
     },
 
     addCardFaceDown: function (card, cardContainer) {
+        const deckType = localStorage.getItem("decktype");
+        let loadFile;
+        if (deckType === 'art') {
+            loadFile = ['art', 'jpg']
+        } else {
+            loadFile = ['classic', 'png']
+        }
         let newCard = document.createElement('img');
         newCard.classList.add("dealer-card");
         if (cardContainer.childElementCount + 1 > 1) {
@@ -93,7 +110,14 @@ export let init = {
             newCard.style.left = `${leftPosition}px`;
         }
 
-        newCard.setAttribute('src', `../static/images/rider-back.png`);
+        newCard.classList.add(`dealer-card${cardContainer.childElementCount + 1}`);
+        console.log("card number in line: " + `${cardContainer.childElementCount + 1}`);
+
+        if (cardContainer.childElementCount + 1 <= 1) {
+            newCard.setAttribute('src', `../static/images/${loadFile[0]}/${card.slice(0, 2)}.${loadFile[1]}`)
+        } else {
+            newCard.setAttribute('src', `../static/images/${loadFile[0]}/back.${loadFile[1]}`);
+        }
 
         if (`${cardContainer.childElementCount + 1}` > 3 && `${card.slice(0, 1)}` === "A" && init.cardCounter() > 10) {
             newCard.dataset.value = 1;
@@ -122,7 +146,7 @@ export let init = {
         let asCounter = 0;
         let cards = document.querySelectorAll(`.${handToCheck}-card`);
         for (let card of cards) {
-            let value = card.dataset.value
+            let value = card.dataset.value;
             if (value === "0") {
                 value = 10
             } else if (value === "K") {
@@ -132,7 +156,7 @@ export let init = {
             } else if (value === "J") {
                 value = 10
             } else if (value === "A") {
-                asCounter++
+                asCounter++;
                 value = 0
             }
             cardSum = cardSum + parseInt(value)
@@ -165,7 +189,7 @@ export let init = {
             let container = document.querySelector(".container");
             let counterDiv = document.createElement("div")
             counterDiv.setAttribute("id", "cardCount")
-            counterDiv.innerText = value
+            counterDiv.innerText = value;
             container.appendChild(counterDiv)
         }
     },
@@ -179,7 +203,7 @@ export let init = {
             return true;
         }
     },
-    
+
     dealerHit: function (newDeck, fullDeck, hands, cardContainer) {
             let hit = deal.dealCards(1, newDeck, fullDeck)[0];
             hands.dealer.push(hit);
