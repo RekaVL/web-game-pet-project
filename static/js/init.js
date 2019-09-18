@@ -58,9 +58,6 @@ export let init = {
         newCard.classList.add(`test-card${cardContainer.childElementCount + 1}`);
         console.log("card number in line: "+`${cardContainer.childElementCount + 1}`);
         newCard.setAttribute('src', `../static/images/${card.slice(0, 2)}.png`);
-        /* if (`${card.slice(0, 1)}`==="A" && init.cardCounter()>10){
-             newCard.dataset.value = 1;
-         } else{*/
         newCard.dataset.value = `${card.slice(0, 1)}`;
         cardContainer.appendChild(newCard);
     },
@@ -93,7 +90,8 @@ export let init = {
 
     initTest: function (newDeck, fullDeck, hands) {
         let cardContainer = document.querySelector('.cards');
-        hands.player = deal.dealCards(2, newDeck, fullDeck);
+        //hands.player = deal.dealCards(2, newDeck, fullDeck);
+        hands.player= ["AH0","AD"]
         for (let card of hands.player) {
             init.addTestCard(`${card}`, cardContainer);
             console.log(`${card.slice(0, 1)}`)
