@@ -47,18 +47,21 @@ export let init = {
         let newDeck = [];
         const fullDeck = deal.createDeck(1);
         const hands = {dealer: [], player: []};
+        let payOut;
 
         const btnStand = document.querySelector('.stand-btn');
+
         btnStand.addEventListener('click', function () {
-            dealerCards.innerHTML = '';
-            for (let card in hands.dealer) {
-                init.addCard(`${hands.dealer[card]}`, dealerCards, 'dealer');
-            }
-            while (init.cardCounter('dealer') < 17) {
+            init.flipDealerCards(hands, dealerCards);
+            while (init.cardCounter('dealer') < 17 && (init.cardCounter('dealer') <= init.cardCounter('player'))) {
                 init.dealerHit(newDeck, fullDeck, hands, dealerCards);
             }
+            if (init.checkForBust('dealer')) {
+                payOut = 2;
+            } else {
+                payOut = init.checkScore();
+            }
         });
-
         const btnHit = document.querySelector('.hit-btn');
         btnHit.addEventListener('click', function () {
             let hit = (deal.dealCards(1, newDeck, fullDeck)[0]);
@@ -66,12 +69,27 @@ export let init = {
             init.addCard(hit, cards, 'player');
             init.showCardSum(init.cardCounter('player'));
             if (init.checkForBust('player')) {
-                btnHit.style.display = 'None';
+                init.hideButtons(buttons);
+                payOut = 0;
             }
         });
+        const buttons = [btnStand, btnHit];
 
         init.initCards(newDeck, fullDeck, hands);
         init.showCardSum(init.cardCounter('player'));
+
+        if (init.checkForBlackjack()) {
+            init.hideButtons(buttons);
+            init.flipDealerCards(hands, dealerCards);
+            payOut = init.checkScore();
+
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                console.log(payOut);
+            }
+        });
     },
 
     addCard: function (card, cardContainer, playerClass) {
@@ -111,9 +129,6 @@ export let init = {
             newCard.style.left = `${leftPosition}px`;
         }
 
-        newCard.classList.add(`dealer-card${cardContainer.childElementCount + 1}`);
-        console.log("card number in line: " + `${cardContainer.childElementCount + 1}`);
-
         if (cardContainer.childElementCount + 1 <= 1) {
             newCard.setAttribute('src', `../static/images/${loadFile[0]}/${card.slice(0, 2)}.${loadFile[1]}`)
         } else {
@@ -121,7 +136,7 @@ export let init = {
         }
 
         if (`${cardContainer.childElementCount + 1}` > 3 && `${card.slice(0, 1)}` === "A" && init.cardCounter() > 10) {
-            newCard.dataset.value = 1;
+            newCard.dataset.value = '1';
         } else {
             newCard.dataset.value = `${card.slice(0, 1)}`;
         }
@@ -194,16 +209,44 @@ export let init = {
     },
 
     checkForBlackjack: function () {
-        return (init.cardCounter('player') === 21 || init.cardCounter('dealer') === 21);
+        return (
+            (init.cardCounter('player') === 21 || init.cardCounter('dealer') === 21) &&
+            document.querySelectorAll('.player-card').length === 2);
     },
 
     checkForBust: function (handToCheck) {
         return (init.cardCounter(handToCheck) > 21);
     },
 
+    checkScore: function () {
+        if (init.cardCounter('player') > init.cardCounter('dealer')) {
+            if (init.checkForBlackjack()) {
+                return 2.5;
+            }
+            return 2;
+        } else if (init.cardCounter('player') < init.cardCounter('dealer')) {
+            return 0;
+        } else {
+            return 1;
+        }
+    },
+
+    flipDealerCards: function (hands, dealerCards) {
+        dealerCards.innerHTML = '';
+        for (let card in hands.dealer) {
+            init.addCard(`${hands.dealer[card]}`, dealerCards, 'dealer');
+        }
+    },
+
     dealerHit: function (newDeck, fullDeck, hands, cardContainer) {
         let hit = deal.dealCards(1, newDeck, fullDeck)[0];
         hands.dealer.push(hit);
         init.addCard(`${hit.slice(0, 2)}`, cardContainer, 'dealer');
+    },
+
+    hideButtons: function (buttons) {
+        for (let button of buttons) {
+            button.style.display = 'None';
+        }
     }
 };
