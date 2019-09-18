@@ -50,19 +50,18 @@ export let init = {
         let newCard = document.createElement('img');
         newCard.classList.add("playerCard");
         newCard.classList.add('test-card');
-        if (cardContainer.childElementCount + 1 > 1){
+        if (cardContainer.childElementCount + 1 > 1) {
             newCard.style.position = "relative";
             let leftPosition = 40 * cardContainer.childElementCount;
             newCard.style.left = `${leftPosition}px`
         }
         newCard.classList.add(`test-card${cardContainer.childElementCount + 1}`);
-        console.log("card number in line: "+`${cardContainer.childElementCount + 1}`);
+        console.log("card number in line: " + `${cardContainer.childElementCount + 1}`);
         newCard.setAttribute('src', `../static/images/${card.slice(0, 2)}.png`);
-        if (`${cardContainer.childElementCount + 1}`>3 && `${card.slice(0, 1)}`==="A" && init.cardCounter()>10){
-            newCard.dataset.value = 1;
-        } else{
-            newCard.dataset.value = `${card.slice(0, 1)}`;
-        }
+        /* if (`${card.slice(0, 1)}`==="A" && init.cardCounter()>10){
+             newCard.dataset.value = 1;
+         } else{*/
+        newCard.dataset.value = `${card.slice(0, 1)}`;
         cardContainer.appendChild(newCard);
 
 
@@ -71,7 +70,8 @@ export let init = {
 
     initTest: function (newDeck, fullDeck, hands) {
         let cardContainer = document.querySelector('.cards');
-        hands.player = deal.dealCards(2, newDeck, fullDeck);
+        //hands.player = deal.dealCards(2, newDeck, fullDeck);
+        hands.player = ['AS0', 'AH0'];
         hands.dealer = deal.dealCards(2, newDeck, fullDeck);
         for (let card of hands.player) {
             init.addTestCard(`${card}`, cardContainer);
@@ -82,6 +82,7 @@ export let init = {
 
     cardCounter: function () {
         let cardSum = 0;
+        let asCounter=0;
         let cards = document.querySelectorAll('.playerCard');
         for (let card of cards) {
             let value = card.dataset.value
@@ -94,9 +95,27 @@ export let init = {
             } else if (value === "J") {
                 value = 10
             } else if (value === "A") {
-                value = 11
+                asCounter++
+                value=0
             }
             cardSum = cardSum + parseInt(value)
+        };
+        for (let card of cards) {
+            let value = card.dataset.value;
+            if (value === "A" && cardSum < 11) {
+                if (asCounter>1 && cardSum===10){
+                    value=1;
+                }else{
+                    value = 11;
+                }
+                cardSum=value+cardSum;
+            } else if (value==="A" && cardSum >10) {
+                value=1;
+                cardSum=value+cardSum;
+            } else {
+                ;
+            }
+
         }
         console.log(cardSum)
         return cardSum
@@ -109,7 +128,7 @@ export let init = {
         } catch (e) {
             let container = document.querySelector(".container");
             let counterDiv = document.createElement("div")
-            counterDiv.setAttribute("id","cardCount")
+            counterDiv.setAttribute("id", "cardCount")
             counterDiv.innerText = value
             container.appendChild(counterDiv)
         }
