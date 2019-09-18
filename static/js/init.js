@@ -48,7 +48,13 @@ export let init = {
 
     addTestCard: function (card, cardContainer) {
         let newCard = document.createElement('img');
-        newCard.classList.add("playerCard")
+        newCard.classList.add("playerCard");
+        newCard.classList.add('test-card');
+        if (cardContainer.childElementCount + 1 > 1){
+            newCard.style.position = "relative";
+            let leftPosition = 40 * cardContainer.childElementCount;
+            newCard.style.left = `${leftPosition}px`
+        }
         newCard.classList.add(`test-card${cardContainer.childElementCount + 1}`);
         console.log("card number in line: "+`${cardContainer.childElementCount + 1}`);
         newCard.setAttribute('src', `../static/images/${card.slice(0, 2)}.png`);

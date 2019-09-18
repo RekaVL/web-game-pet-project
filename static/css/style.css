@@ -35,27 +35,10 @@ body {
     display: grid;
 }
 
-.test-card1 {
+.test-card {
     width: 100px;
     height: 200px;
     grid-row: 1;
     grid-column: 1;
-}
 
-.test-card2 {
-    width: 100px;
-    height: 200px;
-    grid-row: 1;
-    grid-column: 1;
-    position: relative;
-    left: 40px;
-}
-
-.test-card3 {
-    width: 100px;
-    height: 200px;
-    grid-row: 1;
-    grid-column: 1;
-    position: relative;
-    left: 80px;
 }
