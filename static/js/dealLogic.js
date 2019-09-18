@@ -18,8 +18,8 @@ export let deal = {
     dealCards: function (amount, newDeck, fullDeck) {
         let deal = [];
         for (let j = 0; j < amount; j++) {
-            let pick = parseInt(Math.random() * (fullDeck.length - 1));
-            while (fullDeck[pick] in newDeck) {
+            let pick = parseInt(Math.random() * (fullDeck.length - 1));;
+            while (newDeck.includes(fullDeck[pick])) {
                 pick = parseInt(Math.random() * (fullDeck.length - 1));
             }
             newDeck.push(fullDeck[pick]);
@@ -30,9 +30,6 @@ export let deal = {
 
     check: function (isOver, newDeck, fullDeck) {
         //console.log(dealCards(1, newDeck, fullDeck));
-        console.log(newDeck)
-        let alma = dealCards(1, newDeck, fullDeck);
-        console.log(alma)
     }
 };
 
