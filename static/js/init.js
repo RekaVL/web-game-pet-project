@@ -5,7 +5,7 @@ export let init = {
         let startButton = document.querySelector('#start-btn');
         startButton.addEventListener('click', function () {
             let deckStyle = document.querySelector('input[name="deck"]:checked').value;
-            localStorage.setItem("decktype", `${deckStyle}`);
+            localStorage.setItem("deckType", `${deckStyle}`);
 
             init.initGameField();
         });
@@ -75,7 +75,7 @@ export let init = {
     },
 
     addCard: function (card, cardContainer, playerClass) {
-        const deckType = localStorage.getItem("decktype");
+        const deckType = localStorage.getItem("deckType");
         let loadFile;
         if (deckType === 'art') {
             loadFile = ['art', 'jpg']
@@ -90,12 +90,13 @@ export let init = {
             let leftPosition = 40 * cardContainer.childElementCount;
             newCard.style.left = `${leftPosition}px`
         }
-        newCard.setAttribute('src', `../static/images/${loadFile[0]}/${card.slice(0, 2)}.${loadFile[1]}`);        newCard.dataset.value = `${card.slice(0, 1)}`;
+        newCard.setAttribute('src', `../static/images/${loadFile[0]}/${card.slice(0, 2)}.${loadFile[1]}`);
+        newCard.dataset.value = `${card.slice(0, 1)}`;
         cardContainer.appendChild(newCard);
     },
 
     addCardFaceDown: function (card, cardContainer) {
-        const deckType = localStorage.getItem("decktype");
+        const deckType = localStorage.getItem("deckType");
         let loadFile;
         if (deckType === 'art') {
             loadFile = ['art', 'jpg']
@@ -148,16 +149,16 @@ export let init = {
         for (let card of cards) {
             let value = card.dataset.value;
             if (value === "0") {
-                value = 10
+                value = 10;
             } else if (value === "K") {
-                value = 10
+                value = 10;
             } else if (value === "Q") {
-                value = 10
+                value = 10;
             } else if (value === "J") {
-                value = 10
+                value = 10;
             } else if (value === "A") {
                 asCounter++;
-                value = 0
+                value = 0;
             }
             cardSum = cardSum + parseInt(value)
         }
@@ -174,8 +175,6 @@ export let init = {
             } else if (value === "A" && cardSum > 10) {
                 value = 1;
                 cardSum = value + cardSum;
-            } else {
-                ;
             }
         }
         return cardSum
@@ -194,19 +193,17 @@ export let init = {
         }
     },
 
-    checkForBlackjack: function (hand) {
-
+    checkForBlackjack: function () {
+        return (init.cardCounter('player') === 21 || init.cardCounter('dealer') === 21);
     },
 
     checkForBust: function (handToCheck) {
-        if (init.cardCounter(handToCheck) > 21) {
-            return true;
-        }
+        return (init.cardCounter(handToCheck) > 21);
     },
 
     dealerHit: function (newDeck, fullDeck, hands, cardContainer) {
-            let hit = deal.dealCards(1, newDeck, fullDeck)[0];
-            hands.dealer.push(hit);
-            init.addCard(`${hit.slice(0, 2)}`, cardContainer, 'dealer');
+        let hit = deal.dealCards(1, newDeck, fullDeck)[0];
+        hands.dealer.push(hit);
+        init.addCard(`${hit.slice(0, 2)}`, cardContainer, 'dealer');
     }
 };
