@@ -11,9 +11,9 @@ body {
     justify-content: center;
     }
 
-.hit-btn {
+.hit-btn, .stand-btn {
     align-self: flex-end;
-    justify-self: flex-end;
+    justify-self: flex-start;
     margin-bottom: 15px;
 }
 
@@ -35,7 +35,7 @@ body {
     display: grid;
 }
 
-.test-card {
+.player-card, .dealer-card {
     width: 100px;
     height: 200px;
     grid-row: 1;
