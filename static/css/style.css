@@ -4,6 +4,56 @@ body {
     height: 100vh;
 }
 
+#main-container {
+    width: fit-content;
+    margin: 200px auto;
+    text-align: center;
+}
+
+#main-container h1 {
+    color: gold;
+    font-size: 60px;
+    font-weight: bold;
+}
+
+#main-container p {
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff77c;
+    margin: 0 auto;
+    letter-spacing: 1px;
+}
+
+#choices {
+    margin: 30px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+#choices input {
+    height: 20px;
+    width: 20px;
+    margin: 6px;
+}
+
+#choices div {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+
+}
+
+#choices div:first-child {
+    text-align: left;
+    color: #fff77c;
+    font-size: 22px;
+}
+
+#choices label {
+    letter-spacing: 1px;
+    margin: 3px;
+}
+
 .container {
     height: 98%;
     width: 75%;
@@ -18,9 +68,9 @@ body {
     font-size: 20px;
 }
 
-.hit-btn, .stand-btn, .deal-btn, .next-btn {
+.hit-btn, .stand-btn, .deal-btn, .next-btn, #start-btn {
     width: 100px;
-    height: 50px;
+    height: 40px;
     padding: 5px;
 
     align-self: center;
@@ -29,7 +79,7 @@ body {
     border: 1px solid transparent;
     border-radius: 10px;
 
-    background-color: rgb(0, 199, 0);
+    background-color: rgba(0, 199, 0, 0.8);
 
     font-size: 16px;
     font-weight: bold;
@@ -37,7 +87,7 @@ body {
     box-shadow: 2px 2px 0 0 black;
 }
 
-.hit-btn:hover, .stand-btn:hover, .deal-btn:hover, .next-btn:hover {
+.hit-btn:hover, .stand-btn:hover, .deal-btn:hover, .next-btn:hover, #start-btn:hover {
     border-color: rgba(255, 0, 0, 0.79);
     border-width: 2px;
     box-shadow: 0 0 0 0 black;

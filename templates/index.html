@@ -11,18 +11,22 @@
     <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
 </head>
 <body>
-<h1>Hello BlackJack!</h1>
-<p>Deck choose</p>
-<label for="deck-classic">Classic</label>
-<input type="radio" id="deck-classic" name="deck" value="classic"
-       checked>
-<br>
-<label for="deck-art">Art</label>
-<input type="radio" id="deck-art" name="deck" value="art">
-<br>
-<label for="deck-gladiator">Gladiator</label>
-<input type="radio" id="deck-gladiator" name="deck" value="gladiator">
-<br>
-<button id="start-btn">Start Game</button>
+<div id="main-container">
+    <h1>BlackJack</h1>
+    <p>Choose a deck:</p>
+    <div id="choices">
+        <div>
+            <label for="deck-classic">CLASSIC</label>
+            <label for="deck-art">ART</label>
+            <label for="deck-gladiator">GLADIATOR</label>
+        </div>
+        <div>
+            <input type="radio" id="deck-classic" name="deck" value="classic" checked>
+            <input type="radio" id="deck-art" name="deck" value="art">
+            <input type="radio" id="deck-gladiator" name="deck" value="gladiator">
+        </div>
+    </div>
+    <button id="start-btn">Play</button>
+</div>
 </body>
 </html>

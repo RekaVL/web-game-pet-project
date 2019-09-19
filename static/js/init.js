@@ -126,6 +126,7 @@ export let init = {
             document.querySelector('#player-card-count').style.display = 'none';
             document.querySelector('#dealer-card-count').style.display = 'none';
             bet.style.display = 'block';
+            bet.textContent = 'Place your bet!';
             mask.style.display = 'none';
             modal.style.display = 'none';
         });
@@ -177,7 +178,7 @@ export let init = {
         let betField = document.createElement("div");
         betField.setAttribute("id", "bet-field");
         betField.dataset.betValue = "0";
-        betField.innerText = "Take your bet!";
+        betField.innerText = "Place your bet!";
         container.appendChild(betField);
 
         let coinContainer = document.createElement("div");
