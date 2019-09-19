@@ -5,7 +5,17 @@ export let init = {
         let startButton = document.querySelector('#start-btn');
         startButton.addEventListener('click', function () {
             let deckStyle = document.querySelector('input[name="deck"]:checked').value;
-            localStorage.setItem("deckType", `${deckStyle}`);
+
+            if (deckStyle === 'art') {
+                localStorage.setItem("dictionary", 'art');
+                localStorage.setItem("extension", 'jpg');
+            } else if (deckStyle === 'gladiator') {
+                localStorage.setItem("dictionary", 'gladiator');
+                localStorage.setItem("extension", 'jpg');
+            } else {
+                localStorage.setItem("dictionary", 'classic');
+                localStorage.setItem("extension", 'png');
+            }
 
             init.initGameField();
             init.initGame();
@@ -124,7 +134,6 @@ export let init = {
                 init.toggleButtons(buttons, 'hide');
                 payOut = 0;
                 init.moneyHandler(payOut);
-
             }
         });
 
@@ -145,17 +154,11 @@ export let init = {
             newCard.style.left = `${leftPosition}px`
         }
 
-        const deckType = localStorage.getItem("deckType");
-        let loadFile;
-        if (deckType === 'art') {
-            loadFile = ['art', 'jpg'];
-            newCard.classList.add("art-deck");
-        } else {
-            loadFile = ['classic', 'png']
+        if (localStorage.getItem("dictionary") !== 'classic') {
+            newCard.classList.add("radius-deck");
         }
 
-
-        newCard.setAttribute('src', `../static/images/${loadFile[0]}/${card.slice(0, 2)}.${loadFile[1]}`);
+        newCard.setAttribute('src', `../static/images/${localStorage.getItem("dictionary")}/${card.slice(0, 2)}.${localStorage.getItem("extension")}`);
         newCard.dataset.value = `${card.slice(0, 1)}`;
         cardContainer.appendChild(newCard);
     },
@@ -170,23 +173,18 @@ export let init = {
             newCard.style.left = `${leftPosition}px`;
         }
 
-        const deckType = localStorage.getItem("deckType");
-        let loadFile;
-        if (deckType === 'art') {
-            loadFile = ['art', 'jpg'];
-            newCard.classList.add("art-deck")
-        } else {
-            loadFile = ['classic', 'png']
+        if (localStorage.getItem("dictionary") !== 'classic') {
+            newCard.classList.add("radius-deck")
         }
 
         if (cardContainer.childElementCount + 1 <= 1) {
-            newCard.setAttribute('src', `../static/images/${loadFile[0]}/${card.slice(0, 2)}.${loadFile[1]}`)
+            newCard.setAttribute('src', `../static/images/${localStorage.getItem("dictionary")}/${card.slice(0, 2)}.${localStorage.getItem("extension")}`)
         } else {
             let randomBackCard = Math.random();
-            if (randomBackCard > 0.5 && deckType === 'classic') {
-                newCard.setAttribute('src', `../static/images/${loadFile[0]}/redback.${loadFile[1]}`);
+            if (randomBackCard > 0.5 && localStorage.getItem("dictionary") === 'classic') {
+                newCard.setAttribute('src', `../static/images/${localStorage.getItem("dictionary")}/redback.${localStorage.getItem("extension")}`);
             } else {
-                newCard.setAttribute('src', `../static/images/${loadFile[0]}/back.${loadFile[1]}`);
+                newCard.setAttribute('src', `../static/images/${localStorage.getItem("dictionary")}/back.${localStorage.getItem("extension")}`);
             }
         }
 
