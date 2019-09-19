@@ -155,11 +155,7 @@ export let init = {
             }
         }
 
-        if (`${cardContainer.childElementCount + 1}` > 3 && `${card.slice(0, 1)}` === "A" && init.cardCounter() > 10) {
-            newCard.dataset.value = '1';
-        } else {
-            newCard.dataset.value = `${card.slice(0, 1)}`;
-        }
+        newCard.dataset.value = `${card.slice(0, 1)}`;
         cardContainer.appendChild(newCard);
     },
 
