@@ -1,21 +1,63 @@
 body {
-    background-image: radial-gradient(green ,darkgreen, black);
+    background-image: radial-gradient(green, darkgreen, #0b0b0b);
     background-repeat: no-repeat;
     height: 98vh;
 }
 
 .container {
     height: 98vh;
-    width: 50vw;
+    width: 75vw;
     margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    }
+    display: grid;
+    grid-gap: 0px;
+    grid-template-areas: "top top top" "mid mid mid" "bot bot bot";
+    grid-template-columns: 30% 40% 30%;
+    grid-template-rows: 40% 20% 40%;
 
-.hit-btn, .stand-btn {
-    align-self: flex-end;
-    justify-self: flex-start;
-    margin-bottom: 15px;
+    color: white;
+    font-size: 20px;
+}
+
+.hit-btn, .stand-btn, .deal-btn, .next-btn {
+    width: 100px;
+    height: 50px;
+    padding: 5px;
+
+    align-self: center;
+    justify-self: center;
+
+    border: 1px solid transparent;
+    border-radius: 10px;
+
+    background-color: rgb(0, 199, 0);
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.hit-btn:hover, .stand-btn:hover, .deal-btn:hover, .next-btn:hover {
+    border-color: rgba(255, 0, 0, 0.79);
+    border-width: 2px;
+}
+
+.hit-btn {
+    grid-row: 2;
+    grid-column: 1;
+}
+
+.stand-btn {
+    grid-row: 2;
+    grid-column: 3;
+}
+
+.deal-btn {
+    grid-row: 2;
+    grid-column: 1;
+}
+
+.next-btn {
+    grid-row: 2;
+    grid-column: 3;
 }
 
 .dealer-cards, .cards {
@@ -23,15 +65,27 @@ body {
     width: 100px;
     height: 200px;
     display: grid;
+    grid-template-columns: 150px;
+    grid-template-rows: 200px;
+    position: relative;
+    right: 35px;
 }
 
-.cards  {
-    align-self: flex-end;
-    margin-bottom: 15px;
+.dealer-cards {
+    grid-row: 1;
+    grid-column: 2;
+    justify-self: center;
+}
+
+.cards {
+    grid-row: 3;
+    grid-column: 2;
+    align-self: end;
+    justify-self: center;
 }
 
 .player-card, .dealer-card {
-    width: 140px;
+    width: 130px;
     height: 200px;
     grid-row: 1;
     grid-column: 1;
@@ -42,13 +96,74 @@ body {
     border-radius: 8px;
 }
 
-.coin{
-    border: 1px solid black;
-    border-radius: 20px;
+.coincontainer {
+    display: flex;
+    grid-row: 3;
+    grid-column: 2;
+    align-self: center;
+    justify-self: center;
+    z-index: 3;
 }
 
-#betField{
-    border: 1px solid black;
-    height: 9vh ;
+.coin {
+    border-radius: 5.5rem;
+    margin: 2px;
+    height: 5.5rem;
+    width: 5.5rem;
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 30px;
+}
 
+.coin:first-child {
+    border: 15px solid #f11300;
+    background-color: #fff;
+}
+
+.coin:nth-child(2) {
+    border: 15px solid #0c3ad0;
+    background-color: #fff;
+}
+
+.coin:nth-child(3) {
+    border: 15px solid #00ff00;
+    background-color: #fff;
+}
+
+#betField {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+    justify-self: center;
+
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+#pocket {
+    grid-column: 1;
+    grid-row: 3;
+    width: fit-content;
+    align-self: end;
+    justify-self: center;
+
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+#cardCount {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: end;
+    justify-self: start;
+    position: relative;
+    left: 20px;
+    font-size: 26px;
+    font-weight: bold;
+    color: gold;
 }
