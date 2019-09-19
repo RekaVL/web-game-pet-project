@@ -84,7 +84,7 @@ export let init = {
             if (bet.dataset.betValue === "0") {
                 alert("Place your bet!")
             } else {
-                document.querySelector(".coincontainer").style.display = "none";
+                document.querySelector(".coin-container").style.display = "none";
                 init.toggleButtons(buttons, "show");
                 btnDeal.style.display = "none";
                 newDeck = [];
@@ -103,7 +103,7 @@ export let init = {
 
         btnNext.addEventListener("click", function () {
             init.nextRound(cards, dealerCards);
-            document.querySelector(".coincontainer").style.display = "flex";
+            document.querySelector(".coin-container").style.display = "flex";
             document.querySelector('#cardCount').style.display = 'None';
             btnNext.style.display = "none";
             btnDeal.style.display = "block";
@@ -133,13 +133,6 @@ export let init = {
                 init.toggleButtons(buttons, 'hide');
                 payOut = 0;
                 init.moneyHandler(payOut);
-            }
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                console.log(payOut);
-                console.log(newDeck);
             }
         });
     },
@@ -326,7 +319,7 @@ export let init = {
         container.appendChild(betField);
 
         let coinContainer = document.createElement("div");
-        coinContainer.classList.add("coincontainer");
+        coinContainer.classList.add("coin-container");
         let coins = [5, 10, 50];
         for (let coinValue of coins) {
             let coin = document.createElement("button");
@@ -345,7 +338,6 @@ export let init = {
                     let yourBet = betField.dataset.betValue;
                     betField.dataset.betValue = parseInt(yourBet) + parseInt(bet);
                     betField.innerText = "$" + (parseInt(yourBet) + parseInt(bet));
-                    console.log(bet)
                 }
 
             });

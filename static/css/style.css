@@ -1,7 +1,7 @@
 body {
     background-image: radial-gradient(green, darkgreen, #0b0b0b);
     background-repeat: no-repeat;
-    height: 98vh;
+    height: 100vh;
 }
 
 .container {
@@ -96,7 +96,7 @@ body {
     border-radius: 8px;
 }
 
-.coincontainer {
+.coin-container {
     display: flex;
     grid-row: 3;
     grid-column: 2;
