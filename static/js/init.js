@@ -23,41 +23,54 @@ export let init = {
     },
 
     initGameField: function () {
-        let body = document.querySelector('body');
+        const body = document.querySelector('body');
         body.innerHTML = '';
 
-        let container = document.createElement('div');
+        const container = document.createElement('div');
         container.classList.add('container');
         body.appendChild(container);
 
-        let dealButton = document.createElement('button');
+        const mask = document.createElement('div');
+        mask.setAttribute('id', 'page-mask');
+        body.appendChild(mask);
+
+        const modal = document.createElement('div');
+        modal.setAttribute('id', 'modal');
+        container.appendChild(modal);
+
+        const modalText = document.createElement('p');
+        modal.appendChild(modalText);
+
+        const btnDiv = document.createElement('div');
+        modal.appendChild(btnDiv);
+
+        const nexRoundButton = document.createElement("button");
+        nexRoundButton.textContent = 'Next Round';
+        nexRoundButton.classList.add('next-btn');
+        btnDiv.appendChild(nexRoundButton);
+
+        const dealButton = document.createElement('button');
         dealButton.textContent = 'Deal';
         dealButton.classList.add('deal-btn');
         container.appendChild(dealButton);
 
-        let nexRoundButton = document.createElement("button");
-        nexRoundButton.textContent = 'Next Round';
-        nexRoundButton.classList.add('next-btn');
-        nexRoundButton.style.display = "none";
-        container.appendChild(nexRoundButton);
-
-        let hitButton = document.createElement('button');
+        const hitButton = document.createElement('button');
         hitButton.classList.add('hit-btn');
         hitButton.textContent = 'Hit';
         hitButton.style.display = "none";
         container.appendChild(hitButton);
 
-        let standButton = document.createElement('button');
+        const standButton = document.createElement('button');
         standButton.classList.add('stand-btn');
         standButton.textContent = 'Stand';
         standButton.style.display = "none";
         container.appendChild(standButton);
 
-        let dealerCards = document.createElement('div');
+        const dealerCards = document.createElement('div');
         dealerCards.classList.add('dealer-cards');
         container.appendChild(dealerCards);
 
-        let cards = document.createElement('div');
+        const cards = document.createElement('div');
         cards.classList.add('cards');
         container.appendChild(cards);
 
@@ -65,40 +78,46 @@ export let init = {
     },
 
     initGame: function () {
+        const modal = document.querySelector('#modal');
+        const mask = document.querySelector('#page-mask');
+
         const fullDeck = deal.createDeck(2);
         let newDeck = [];
         const hands = {dealer: [], player: []};
         let payOut = 0;
 
-        let cards = document.querySelector('.cards');
-        let dealerCards = document.querySelector('.dealer-cards');
-        let bet = document.querySelector("#bet-field");
+        const cards = document.querySelector('.cards');
+        const dealerCards = document.querySelector('.dealer-cards');
+        const bet = document.querySelector("#bet-field");
 
         const btnNext = document.querySelector(".next-btn");
         const btnDeal = document.querySelector('.deal-btn');
         const btnStand = document.querySelector('.stand-btn');
         const btnHit = document.querySelector('.hit-btn');
+
         const buttons = [btnStand, btnHit];
 
         btnDeal.addEventListener('click', function () {
-            if (bet.dataset.betValue === "0") {
-                alert("Place your bet!")
-            } else {
-                document.querySelector(".coin-container").style.display = "none";
-                init.toggleButtons(buttons, "show");
-                btnDeal.style.display = "none";
-                newDeck = [];
-                init.nextRound(cards, dealerCards, buttons);
-                init.startRound(newDeck, fullDeck, hands, buttons, payOut);
+            document.querySelector(".coin-container").style.display = "none";
+            init.toggleButtons(buttons, "show");
+            btnDeal.style.display = "none";
+            newDeck = [];
+            init.nextRound(cards, dealerCards, buttons);
+            init.startRound(newDeck, fullDeck, hands, buttons, payOut);
 
-                if (init.checkForBlackjack()) {
-                    init.toggleButtons(buttons, 'hide');
-                    init.flipDealerCards(hands, dealerCards);
-                    payOut = init.checkScore();
-                    init.moneyHandler(payOut);
+            if (init.checkForBlackjack()) {
+                init.toggleButtons(buttons, 'hide');
+                init.flipDealerCards(hands, dealerCards);
+                payOut = init.checkScore();
+                init.moneyHandler(payOut);
+                if (payOut === 2.5) {
+                    init.showModal(modal, mask, `BlackJack`);
+                } else if (payOut === 1) {
+                    init.showModal(modal, mask, `Push`);
+                } else {
+                    init.showModal(modal, mask, `Dealer has BlackJack`);
                 }
             }
-
         });
 
         btnNext.addEventListener("click", function () {
@@ -106,10 +125,10 @@ export let init = {
             document.querySelector(".coin-container").style.display = "flex";
             document.querySelector('#player-card-count').style.display = 'none';
             document.querySelector('#dealer-card-count').style.display = 'none';
-            btnNext.style.display = "none";
-            btnDeal.style.display = "block";
+            bet.style.display = 'block';
+            mask.style.display = 'none';
+            modal.style.display = 'none';
         });
-
 
         btnStand.addEventListener('click', function () {
             init.flipDealerCards(hands, dealerCards);
@@ -118,8 +137,16 @@ export let init = {
             }
             if (init.checkForBust('dealer')) {
                 payOut = 2;
+                init.showModal(modal, mask, `You win $${parseInt(bet.dataset.betValue) * payOut}`);
             } else {
                 payOut = init.checkScore();
+                if (payOut === 2) {
+                    init.showModal(modal, mask, `You win $${parseInt(bet.dataset.betValue) * payOut}`);
+                } else if (payOut === 1) {
+                    init.showModal(modal, mask, `Push`);
+                } else {
+                    init.showModal(modal, mask, `Dealer wins`);
+                }
             }
             init.moneyHandler(payOut);
             init.toggleButtons(buttons, 'hide');
@@ -134,6 +161,7 @@ export let init = {
                 init.toggleButtons(buttons, 'hide');
                 payOut = 0;
                 init.moneyHandler(payOut);
+                init.showModal(modal, mask, 'Bust');
             }
         });
     },
@@ -317,6 +345,7 @@ export let init = {
             coin.innerText = coinValue.toString();
             coin.dataset.quantity = coinValue.toString();
             coin.addEventListener("click", function () {
+                const btnDeal = document.querySelector('.deal-btn');
                 let bet = coin.dataset.quantity;
                 let yourPocket = pocket.dataset.money;
 
@@ -326,6 +355,7 @@ export let init = {
                     let yourBet = betField.dataset.betValue;
                     betField.dataset.betValue = parseInt(yourBet) + parseInt(bet);
                     betField.innerText = "$" + (parseInt(yourBet) + parseInt(bet));
+                    btnDeal.style.display = 'block';
                 }
             });
             coinContainer.appendChild(coin);
@@ -335,8 +365,8 @@ export let init = {
 
     moneyHandler: function (payOut) {
         let betField = document.querySelector("#bet-field");
-        let yourBet = parseInt(betField.dataset.betValue);
         let pocket = document.querySelector("#pocket");
+        let yourBet = parseInt(betField.dataset.betValue);
         let reward = yourBet * payOut;
         let moneyInPocket = parseInt(pocket.dataset.money) + reward;
 
@@ -345,6 +375,12 @@ export let init = {
 
         betField.textContent = "$0";
         betField.dataset.betValue = "0";
-        document.querySelector(".next-btn").style.display = "block";
+        betField.style.display = 'none';
+    },
+
+    showModal: function (modal, mask, message) {
+        modal.firstChild.textContent = message;
+        modal.style.display = 'block';
+        mask.style.display = 'block';
     }
 };
