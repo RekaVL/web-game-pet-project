@@ -31,6 +31,10 @@ export let deal = {
     check: function (isOver, newDeck, fullDeck) {
         //console.log(dealCards(1, newDeck, fullDeck));
     }
+
+
+
+
 };
 
 

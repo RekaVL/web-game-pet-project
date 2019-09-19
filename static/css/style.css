@@ -41,3 +41,14 @@ body {
 .radius-deck {
     border-radius: 8px;
 }
+
+.coin{
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+#betField{
+    border: 1px solid black;
+    height: 9vh ;
+
+}
