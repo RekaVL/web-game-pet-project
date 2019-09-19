@@ -31,14 +31,14 @@ body {
 }
 
 .player-card, .dealer-card {
-    width: 100px;
+    width: 140px;
     height: 200px;
     grid-row: 1;
     grid-column: 1;
 
 }
 
-.art-deck {
+.radius-deck {
     border-radius: 8px;
 }
 
