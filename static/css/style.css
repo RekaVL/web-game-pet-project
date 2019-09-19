@@ -42,3 +42,7 @@ body {
     grid-column: 1;
 
 }
+
+.art-deck {
+    border-radius: 8px;
+}
