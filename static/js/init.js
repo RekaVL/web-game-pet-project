@@ -159,25 +159,17 @@ export let init = {
 
         let newCard = document.createElement('img');
         newCard.classList.add("dealer-card");
-        if (cardContainer.childElementCount + 1 > 1) {
-            newCard.style.position = "relative";
-            let leftPosition = 40 * cardContainer.childElementCount;
-            newCard.style.left = `${leftPosition}px`;
-        }
+        newCard.classList.add("face-down-card");
 
         if (localStorage.getItem("dictionary") !== 'classic') {
             newCard.classList.add("radius-deck")
         }
 
-        if (cardContainer.childElementCount + 1 <= 1) {
-            newCard.setAttribute('src', `../static/images/${localStorage.getItem("dictionary")}/${card.slice(0, 2)}.${localStorage.getItem("extension")}`)
+        let randomBackCard = Math.random();
+        if (randomBackCard > 0.5 && localStorage.getItem("dictionary") === 'classic') {
+            newCard.setAttribute('src', `../static/images/${localStorage.getItem("dictionary")}/redback.${localStorage.getItem("extension")}`);
         } else {
-            let randomBackCard = Math.random();
-            if (randomBackCard > 0.5 && localStorage.getItem("dictionary") === 'classic') {
-                newCard.setAttribute('src', `../static/images/${localStorage.getItem("dictionary")}/redback.${localStorage.getItem("extension")}`);
-            } else {
-                newCard.setAttribute('src', `../static/images/${localStorage.getItem("dictionary")}/back.${localStorage.getItem("extension")}`);
-            }
+            newCard.setAttribute('src', `../static/images/${localStorage.getItem("dictionary")}/back.${localStorage.getItem("extension")}`);
         }
 
         newCard.dataset.value = `${card.slice(0, 1)}`;
@@ -193,8 +185,8 @@ export let init = {
 
         let dealerCardContainer = document.querySelector('.dealer-cards');
         hands.dealer = deal.dealCards(2, newDeck, fullDeck);
-        init.addCard(`${hands.dealer[0]}`, dealerCardContainer, 'dealer');
-        init.addCardFaceDown(`${hands.dealer[1]}`, dealerCardContainer);
+        init.addCardFaceDown(`${hands.dealer[0]}`, dealerCardContainer);
+        init.addCard(`${hands.dealer[1]}`, dealerCardContainer, 'dealer');
     },
 
     cardCounter: function (handToCheck) {
@@ -303,7 +295,6 @@ export let init = {
         init.showCardSum(init.cardCounter('player'));
     },
 
-
     betFieldCreator: function (money) {
         let container = document.querySelector(".container");
         let pocket = document.createElement("div");
@@ -313,7 +304,7 @@ export let init = {
         container.appendChild(pocket);
 
         let betField = document.createElement("div");
-        betField.setAttribute("id", "betField")
+        betField.setAttribute("id", "betField");
         betField.dataset.betValue = "0";
         betField.innerText = "Take your bet!";
         container.appendChild(betField);
@@ -324,22 +315,19 @@ export let init = {
         for (let coinValue of coins) {
             let coin = document.createElement("button");
             coin.classList.add("coin");
-            coin.innerText = coinValue;
-            coin.dataset.quantity = coinValue;
+            coin.innerText = coinValue.toString();
+            coin.dataset.quantity = coinValue.toString();
             coin.addEventListener("click", function () {
                 let bet = coin.dataset.quantity;
                 let yourPocket = pocket.dataset.money;
 
-                if (yourPocket <= 0 || parseInt(yourPocket) - parseInt(bet) < 0) {
-                    ;
-                } else {
-                    pocket.dataset.money = parseInt(yourPocket) - parseInt(bet);
+                if (!(yourPocket <= 0 || parseInt(yourPocket) - parseInt(bet) < 0)) {
+                    pocket.dataset.money = (parseInt(yourPocket) - parseInt(bet)).toString();
                     pocket.innerText = "Your Pocket: $" + (parseInt(yourPocket) - parseInt(bet));
                     let yourBet = betField.dataset.betValue;
                     betField.dataset.betValue = parseInt(yourBet) + parseInt(bet);
                     betField.innerText = "$" + (parseInt(yourBet) + parseInt(bet));
                 }
-
             });
             coinContainer.appendChild(coin);
         }

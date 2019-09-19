@@ -9,7 +9,7 @@ body {
     width: 75vw;
     margin: 0 auto;
     display: grid;
-    grid-gap: 0px;
+    grid-gap: 0;
     grid-template-areas: "top top top" "mid mid mid" "bot bot bot";
     grid-template-columns: 30% 40% 30%;
     grid-template-rows: 40% 20% 40%;
@@ -84,7 +84,7 @@ body {
     justify-self: center;
 }
 
-.player-card, .dealer-card {
+.player-card, .dealer-card, .face-down-card {
     width: 130px;
     height: 200px;
     grid-row: 1;
@@ -119,18 +119,18 @@ body {
 }
 
 .coin:first-child {
-    border: 15px solid #f11300;
-    background-color: #fff;
+    border: 1px solid #000;
+    background-image: radial-gradient(white 50%, red 50%);
 }
 
 .coin:nth-child(2) {
-    border: 15px solid #0c3ad0;
-    background-color: #fff;
+    border: 1px solid #000;
+    background-image: radial-gradient(white 50%, blue 50%);
 }
 
 .coin:nth-child(3) {
-    border: 15px solid #00ff00;
-    background-color: #fff;
+    border: 1px solid #000;
+    background-image: radial-gradient(white 50%, green 50%);
 }
 
 #betField {
