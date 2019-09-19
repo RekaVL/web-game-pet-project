@@ -1,9 +1,10 @@
 body {
-    background-color: #3a7734;
+    background-image: radial-gradient(green ,darkgreen, black);
+    background-repeat: no-repeat;
+    height: 98vh;
 }
 
 .container {
-    background-color: #9C1A1C;
     height: 98vh;
     width: 50vw;
     margin: 0 auto;
