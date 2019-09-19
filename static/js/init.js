@@ -45,7 +45,7 @@ export let init = {
     },
 
     initGame: function () {
-        const fullDeck = deal.createDeck(1);
+        const fullDeck = deal.createDeck(2);
         let newDeck = [];
         const hands = {dealer: [], player: []};
         let payOut = 0;
@@ -102,14 +102,6 @@ export let init = {
     },
 
     addCard: function (card, cardContainer, playerClass) {
-        const deckType = localStorage.getItem("deckType");
-        let loadFile;
-        if (deckType === 'art') {
-            loadFile = ['art', 'jpg']
-        } else {
-            loadFile = ['classic', 'png']
-        }
-
         let newCard = document.createElement('img');
         newCard.classList.add(`${playerClass}-card`);
         if (cardContainer.childElementCount + 1 > 1) {
@@ -117,19 +109,24 @@ export let init = {
             let leftPosition = 40 * cardContainer.childElementCount;
             newCard.style.left = `${leftPosition}px`
         }
+
+        const deckType = localStorage.getItem("deckType");
+        let loadFile;
+        if (deckType === 'art') {
+            loadFile = ['art', 'jpg'];
+            newCard.classList.add("art-deck");
+        } else {
+            loadFile = ['classic', 'png']
+        }
+
+
         newCard.setAttribute('src', `../static/images/${loadFile[0]}/${card.slice(0, 2)}.${loadFile[1]}`);
         newCard.dataset.value = `${card.slice(0, 1)}`;
         cardContainer.appendChild(newCard);
     },
 
     addCardFaceDown: function (card, cardContainer) {
-        const deckType = localStorage.getItem("deckType");
-        let loadFile;
-        if (deckType === 'art') {
-            loadFile = ['art', 'jpg']
-        } else {
-            loadFile = ['classic', 'png']
-        }
+
         let newCard = document.createElement('img');
         newCard.classList.add("dealer-card");
         if (cardContainer.childElementCount + 1 > 1) {
@@ -138,10 +135,24 @@ export let init = {
             newCard.style.left = `${leftPosition}px`;
         }
 
+        const deckType = localStorage.getItem("deckType");
+        let loadFile;
+        if (deckType === 'art') {
+            loadFile = ['art', 'jpg'];
+            newCard.classList.add("art-deck")
+        } else {
+            loadFile = ['classic', 'png']
+        }
+
         if (cardContainer.childElementCount + 1 <= 1) {
             newCard.setAttribute('src', `../static/images/${loadFile[0]}/${card.slice(0, 2)}.${loadFile[1]}`)
         } else {
-            newCard.setAttribute('src', `../static/images/${loadFile[0]}/back.${loadFile[1]}`);
+            let randomBackCard = Math.random();
+            if (randomBackCard > 0.5 && deckType === 'classic') {
+                newCard.setAttribute('src', `../static/images/${loadFile[0]}/redback.${loadFile[1]}`);
+            } else {
+                newCard.setAttribute('src', `../static/images/${loadFile[0]}/back.${loadFile[1]}`);
+            }
         }
 
         if (`${cardContainer.childElementCount + 1}` > 3 && `${card.slice(0, 1)}` === "A" && init.cardCounter() > 10) {

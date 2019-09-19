@@ -17,22 +17,16 @@ body {
     margin-bottom: 15px;
 }
 
-.dealer-cards {
-    border: 3px solid white;
+.dealer-cards, .cards {
     border-radius: 5px;
     width: 100px;
     height: 200px;
     display: grid;
 }
 
-.cards {
-    border: 3px solid white;
-    border-radius: 5px;
-    width: 100px;
-    height: 200px;
+.cards  {
     align-self: flex-end;
     margin-bottom: 15px;
-    display: grid;
 }
 
 .player-card, .dealer-card {
@@ -41,4 +35,8 @@ body {
     grid-row: 1;
     grid-column: 1;
 
+}
+
+.art-deck {
+    border-radius: 8px;
 }
