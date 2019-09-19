@@ -45,7 +45,7 @@ export let init = {
         container.appendChild(cards);
 
         let newDeck = [];
-        const fullDeck = deal.createDeck(1);
+        const fullDeck = deal.createDeck(2);
         const hands = {dealer: [], player: []};
         let payOut;
 
@@ -132,7 +132,13 @@ export let init = {
         if (cardContainer.childElementCount + 1 <= 1) {
             newCard.setAttribute('src', `../static/images/${loadFile[0]}/${card.slice(0, 2)}.${loadFile[1]}`)
         } else {
-            newCard.setAttribute('src', `../static/images/${loadFile[0]}/back.${loadFile[1]}`);
+            let randomBackCard = Math.random();
+            console.log(randomBackCard);
+            if (randomBackCard > 0.5) {
+                newCard.setAttribute('src', `../static/images/${loadFile[0]}/redback.${loadFile[1]}`);
+            } else {
+                newCard.setAttribute('src', `../static/images/${loadFile[0]}/back.${loadFile[1]}`);
+            }
         }
 
         if (`${cardContainer.childElementCount + 1}` > 3 && `${card.slice(0, 1)}` === "A" && init.cardCounter() > 10) {
