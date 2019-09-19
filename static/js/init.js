@@ -94,8 +94,8 @@ export let init = {
             if (init.checkForBust('player')) {
                 init.toggleButtons(buttons, 'hide');
                 payOut = 0;
+                init.moneyHandler(payOut);
             }
-            init.moneyHandler(payOut);
         });
 
         document.addEventListener('keydown', function (e) {
