@@ -72,7 +72,7 @@ export let init = {
 
         let cards = document.querySelector('.cards');
         let dealerCards = document.querySelector('.dealer-cards');
-        let bet = document.querySelector("#betField");
+        let bet = document.querySelector("#bet-field");
 
         const btnNext = document.querySelector(".next-btn");
         const btnDeal = document.querySelector('.deal-btn');
@@ -104,7 +104,8 @@ export let init = {
         btnNext.addEventListener("click", function () {
             init.nextRound(cards, dealerCards);
             document.querySelector(".coin-container").style.display = "flex";
-            document.querySelector('#cardCount').style.display = 'None';
+            document.querySelector('#player-card-count').style.display = 'none';
+            document.querySelector('#dealer-card-count').style.display = 'none';
             btnNext.style.display = "none";
             btnDeal.style.display = "block";
         });
@@ -128,7 +129,7 @@ export let init = {
             let hit = (deal.dealCards(1, newDeck, fullDeck)[0]);
             hands.player.push(hit[0]);
             init.addCard(hit, cards, 'player');
-            init.showCardSum(init.cardCounter('player'));
+            init.showCardSum(init.cardCounter('player'), 'player');
             if (init.checkForBust('player')) {
                 init.toggleButtons(buttons, 'hide');
                 payOut = 0;
@@ -191,52 +192,47 @@ export let init = {
 
     cardCounter: function (handToCheck) {
         // handToCheck will be 'player' or 'dealer'
+
+        const cards = document.querySelectorAll(`.${handToCheck}-card`);
         let cardSum = 0;
-        let asCounter = 0;
-        let cards = document.querySelectorAll(`.${handToCheck}-card`);
-        for (let card of cards) {
-            let value = card.dataset.value;
-            if (value === "0") {
-                value = 10;
-            } else if (value === "K") {
-                value = 10;
-            } else if (value === "Q") {
-                value = 10;
-            } else if (value === "J") {
-                value = 10;
-            } else if (value === "A") {
-                asCounter++;
-                value = 0;
-            }
-            cardSum = cardSum + parseInt(value)
-        }
+        let aceCounter = 0;
 
         for (let card of cards) {
-            let value = card.dataset.value;
-            if (value === "A" && cardSum < 11) {
-                if (asCounter > 1 && cardSum === 10) {
-                    value = 1;
-                } else {
-                    value = 11;
-                }
-                cardSum = value + cardSum;
-            } else if (value === "A" && cardSum > 10) {
-                value = 1;
-                cardSum = value + cardSum;
+            switch (card.dataset.value) {
+                case '0':
+                case 'J':
+                case 'Q':
+                case 'K':
+                    cardSum += 10;
+                    break;
+                case 'A':
+                    cardSum += 11;
+                    aceCounter++;
+                    break;
+                default:
+                    cardSum += parseInt(card.dataset.value);
             }
         }
-        return cardSum
+
+        while (cardSum > 21 && aceCounter > 0) {
+            cardSum -= 10;
+            aceCounter -= 1;
+        }
+
+        return cardSum;
     },
 
-    showCardSum: function (value) {
+    showCardSum: function (value, person) {
+        // person can be 'player' or 'dealer'
         try {
-            let counterDiv = document.querySelector('#cardCount');
+            let counterDiv = document.querySelector(`#${person}-card-count`);
             counterDiv.style.display = 'block';
             counterDiv.innerText = value;
         } catch (e) {
             let container = document.querySelector(".container");
             let counterDiv = document.createElement("div");
-            counterDiv.setAttribute("id", "cardCount");
+            counterDiv.setAttribute('id', `${person}-card-count`);
+            counterDiv.classList.add('card-count');
             counterDiv.innerText = value;
             container.appendChild(counterDiv);
         }
@@ -270,12 +266,14 @@ export let init = {
         for (let card in hands.dealer) {
             init.addCard(`${hands.dealer[card]}`, dealerCards, 'dealer');
         }
+        init.showCardSum(init.cardCounter('dealer'), 'dealer');
     },
 
     dealerHit: function (newDeck, fullDeck, hands, cardContainer) {
         let hit = deal.dealCards(1, newDeck, fullDeck)[0];
         hands.dealer.push(hit);
         init.addCard(`${hit.slice(0, 2)}`, cardContainer, 'dealer');
+        init.showCardSum(init.cardCounter('dealer'), 'dealer');
     },
 
     toggleButtons: function (buttons, action) {
@@ -292,7 +290,8 @@ export let init = {
 
     startRound: function (newDeck, fullDeck, hands) {
         init.initCards(newDeck, fullDeck, hands);
-        init.showCardSum(init.cardCounter('player'));
+        init.showCardSum(init.cardCounter('player'), 'player');
+        init.showCardSum(init.cardCounter('dealer') - init.cardCounter('face-down'), 'dealer');
     },
 
     betFieldCreator: function (money) {
@@ -304,7 +303,7 @@ export let init = {
         container.appendChild(pocket);
 
         let betField = document.createElement("div");
-        betField.setAttribute("id", "betField");
+        betField.setAttribute("id", "bet-field");
         betField.dataset.betValue = "0";
         betField.innerText = "Take your bet!";
         container.appendChild(betField);
@@ -335,7 +334,7 @@ export let init = {
     },
 
     moneyHandler: function (payOut) {
-        let betField = document.querySelector("#betField");
+        let betField = document.querySelector("#bet-field");
         let yourBet = parseInt(betField.dataset.betValue);
         let pocket = document.querySelector("#pocket");
         let reward = yourBet * payOut;

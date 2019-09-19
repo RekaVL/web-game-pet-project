@@ -133,7 +133,7 @@ body {
     background-image: radial-gradient(white 50%, green 50%);
 }
 
-#betField {
+#bet-field {
     grid-column: 2;
     grid-row: 2;
     align-self: center;
@@ -156,14 +156,24 @@ body {
     letter-spacing: 1px;
 }
 
-#cardCount {
-    grid-column: 2;
-    grid-row: 3;
-    align-self: end;
-    justify-self: start;
+#player-card-count, #dealer-card-count {
     position: relative;
     left: 20px;
     font-size: 26px;
     font-weight: bold;
     color: gold;
+}
+
+#player-card-count {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: end;
+    justify-self: start;
+}
+
+#dealer-card-count {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    justify-self: start;
 }
